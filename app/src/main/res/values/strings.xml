@@ -9,4 +9,5 @@
     <string name="artist_name">Artist name</string>
     <string name="track_price">$x.x</string>
     <string name="cd_artwork">Track or album art.</string>
+    <string name="some_error">No Error Message</string>
 </resources>

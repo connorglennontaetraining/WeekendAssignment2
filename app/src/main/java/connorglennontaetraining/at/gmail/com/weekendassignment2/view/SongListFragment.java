@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import connorglennontaetraining.at.gmail.com.weekendassignment2.R;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.IRequest;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.ServerConnection;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Results;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Song;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -23,9 +26,10 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongListFragment extends Fragment {
+public class SongListFragment extends Fragment implements ISongListFragment{
 
-    private RecyclerView mRvSongList;
+    RecyclerView mRvSongList;
+    int mLayoutId;
 
     public SongListFragment() {
         // Required empty public constructor
@@ -44,6 +48,7 @@ public class SongListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRvSongList(view);
+        mLayoutId = R.layout.card_song;
     }
 
     /**
@@ -54,10 +59,60 @@ public class SongListFragment extends Fragment {
     {
         mRvSongList = view.findViewById(R.id.rvSongList);
         mRvSongList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
 
-        IRequest request = ServerConnection.getServerConnection();
-        request.requestClassicResults().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(results -> mRvSongList.setAdapter(new SongListAdapter(getActivity(), results.getResults(), R.layout.card_song)));
+    @Override
+    public void onFetchDataSuccess(List<Song> songList) {
+        mRvSongList.setAdapter(new SongListAdapter(getActivity(), songList, mLayoutId));
+    }
+
+    @Override
+    public void onFetchDataError(String message) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void openActivityOnTokenExpire() {
+
+    }
+
+    @Override
+    public void onError(int resId) {
+
+    }
+
+    @Override
+    public void onError(String message) {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showMessage(int resId) {
+
+    }
+
+    @Override
+    public boolean isNetworkConnected() {
+        return false;
+    }
+
+    @Override
+    public void hideKeyboard() {
+
     }
 }

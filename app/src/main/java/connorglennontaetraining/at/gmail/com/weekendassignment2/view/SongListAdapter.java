@@ -3,6 +3,7 @@ package connorglennontaetraining.at.gmail.com.weekendassignment2.view;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,8 @@ public class SongListAdapter extends RecyclerView.Adapter {
         songViewHolder.mTrackName.setText(currentSong.getTrackName());
         songViewHolder.mArtistName.setText(currentSong.getArtistName());
         //TODO handle warning to do with poor setting of this text field.
-        songViewHolder.mTrackPrice.setText(Double.toString(currentSong.getTrackPrice()) + " USD");
+        Log.i("Id", "" + currentSong.getTrackId());
+        if(currentSong.getTrackPrice() != null) songViewHolder.mTrackPrice.setText(Double.toString(currentSong.getTrackPrice()) + " USD");
 
         Uri uri = Uri.parse(currentSong.getArtworkUrl100());
         songViewHolder.mArtwork.setImageURI(uri);
