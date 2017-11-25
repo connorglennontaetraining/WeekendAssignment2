@@ -3,4 +3,10 @@
     <string name="title_classic">Classic</string>
     <string name="title_rock">Rock</string>
     <string name="title_pop">Pop</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="track_name">Track name</string>
+    <string name="artist_name">Artist name</string>
+    <string name="track_price">$x.x</string>
+    <string name="cd_artwork">Track or album art.</string>
 </resources>
