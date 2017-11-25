@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import connorglennontaetraining.at.gmail.com.weekendassignment2.R;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.IRequest;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.ServerConnection;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Results;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -48,5 +54,10 @@ public class SongListFragment extends Fragment {
     {
         mRvSongList = view.findViewById(R.id.rvSongList);
         mRvSongList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        IRequest request = ServerConnection.getServerConnection();
+        request.requestClassicResults().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(results -> mRvSongList.setAdapter(new SongListAdapter(getActivity(), results.getResults(), R.layout.card_song)));
     }
 }
