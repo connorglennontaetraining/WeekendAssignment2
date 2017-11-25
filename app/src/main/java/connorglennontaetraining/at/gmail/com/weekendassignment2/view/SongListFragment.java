@@ -18,6 +18,7 @@ import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.IRe
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.ServerConnection;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Results;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Song;
+import icepick.State;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -59,6 +60,11 @@ public class SongListFragment extends Fragment implements ISongListFragment{
     {
         mRvSongList = view.findViewById(R.id.rvSongList);
         mRvSongList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

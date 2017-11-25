@@ -18,7 +18,8 @@ public class SongListPresenter <V extends ISongListFragment> extends BasePresent
 
     @Override
     public void onCallGetClassicSongList() {
-        getDataManager()
+        getCompositeDisposable()
+                .add(getDataManager()
                 .requestClassicResults()
                 .observeOn(getSchedulerProvider().ui())
                 .subscribeOn(getSchedulerProvider().io())
@@ -34,12 +35,13 @@ public class SongListPresenter <V extends ISongListFragment> extends BasePresent
                                 getMvpView().onError(throwable.getMessage());
                             }
                         }
-                );
+                ));
     }
 
     @Override
     public void onCallGetRockSongList() {
-        getDataManager()
+        getCompositeDisposable()
+                .add(getDataManager()
                 .requestRockResults()
                 .observeOn(getSchedulerProvider().ui())
                 .subscribeOn(getSchedulerProvider().io())
@@ -55,12 +57,13 @@ public class SongListPresenter <V extends ISongListFragment> extends BasePresent
                                 getMvpView().onError(throwable.getMessage());
                             }
                         }
-                );
+                ));
     }
 
     @Override
     public void onCallGetPopSongList() {
-        getDataManager()
+        getCompositeDisposable()
+                .add(getDataManager()
                 .requestPopResults()
                 .observeOn(getSchedulerProvider().ui())
                 .subscribeOn(getSchedulerProvider().io())
@@ -76,6 +79,6 @@ public class SongListPresenter <V extends ISongListFragment> extends BasePresent
                                 getMvpView().onError(throwable.getMessage());
                             }
                         }
-                );
+                ));
     }
 }

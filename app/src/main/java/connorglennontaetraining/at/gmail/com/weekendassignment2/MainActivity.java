@@ -15,11 +15,15 @@ import connorglennontaetraining.at.gmail.com.weekendassignment2.view.ISongListFr
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.ISongListPresenter;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.SongListFragment;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.SongListPresenter;
+import icepick.State;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends AppCompatActivity{
 
     FragmentManager mFragmentManager;
+    @State int mMenuiItemId;
+    MenuItem mSelectedItem;
+    BottomNavigationView mNavigationView;
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
     ISongListPresenter<SongListFragment> presenter;
 
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity{
     private void initBottomNavigation()
     {
         mOnNavigationItemSelectedListener = item -> {
+            mSelectedItem = item;
+            mMenuiItemId = item.getItemId();
             switch (item.getItemId()) {
                 case R.id.navigation_classic:
                     presenter.onCallGetClassicSongList();
@@ -68,8 +74,17 @@ public class MainActivity extends AppCompatActivity{
             }
             return false;
         };
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mNavigationView = findViewById(R.id.navigation);
+        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSelectedItem = mNavigationView.getMenu().getItem(mMenuiItemId);
+        mOnNavigationItemSelectedListener.onNavigationItemSelected(mSelectedItem);
     }
 
     @Override
