@@ -1,6 +1,9 @@
-package connorglennontaetraining.at.gmail.com.weekendassignment2.view;
+package connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,9 +15,13 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.IOException;
 import java.util.List;
 
+import connorglennontaetraining.at.gmail.com.weekendassignment2.MyApp;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.R;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.Utils.IMedia;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.Utils.Media;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Song;
 
 public class SongListAdapter extends RecyclerView.Adapter {
@@ -47,6 +54,10 @@ public class SongListAdapter extends RecyclerView.Adapter {
 
         Uri uri = Uri.parse(currentSong.getArtworkUrl100());
         songViewHolder.mArtwork.setImageURI(uri);
+
+        holder.itemView.setOnClickListener(view -> {
+            Media.getMedia().playSound(currentSong.getPreviewUrl());
+        });
     }
 
     @Override

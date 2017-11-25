@@ -1,4 +1,4 @@
-package connorglennontaetraining.at.gmail.com.weekendassignment2.view;
+package connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist;
 
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.IDataManager;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Results;

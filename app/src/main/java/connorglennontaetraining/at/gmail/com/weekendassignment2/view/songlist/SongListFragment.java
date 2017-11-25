@@ -1,4 +1,4 @@
-package connorglennontaetraining.at.gmail.com.weekendassignment2.view;
+package connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist;
 
 
 import android.os.Bundle;
@@ -14,14 +14,10 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import connorglennontaetraining.at.gmail.com.weekendassignment2.R;
-import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.IRequest;
-import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.ServerConnection;
-import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Results;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.model.Song;
-import icepick.State;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.mindorks.utils.CommonUtils;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.mindorks.utils.KeyboardUtils;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.mindorks.utils.NetworkUtils;
 
 
 /**
@@ -79,7 +75,7 @@ public class SongListFragment extends Fragment implements ISongListFragment{
 
     @Override
     public void showLoading() {
-
+        CommonUtils.showLoadingDialog(getActivity());
     }
 
     @Override
@@ -114,11 +110,11 @@ public class SongListFragment extends Fragment implements ISongListFragment{
 
     @Override
     public boolean isNetworkConnected() {
-        return false;
+        return NetworkUtils.isNetworkConnected(getContext());
     }
 
     @Override
     public void hideKeyboard() {
-
+        KeyboardUtils.hideSoftInput(getActivity());
     }
 }

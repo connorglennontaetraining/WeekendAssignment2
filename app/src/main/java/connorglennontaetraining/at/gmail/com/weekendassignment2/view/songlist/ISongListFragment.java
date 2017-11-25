@@ -1,4 +1,4 @@
-package connorglennontaetraining.at.gmail.com.weekendassignment2.view;
+package connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist;
 
 import java.util.List;
 
