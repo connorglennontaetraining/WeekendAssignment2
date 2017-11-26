@@ -12,16 +12,14 @@ import connorglennontaetraining.at.gmail.com.weekendassignment2.mindorks.utils.r
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist.ISongListPresenter;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist.SongListFragment;
 import connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist.SongListPresenter;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist.navbar.INavbarEvent;
+import connorglennontaetraining.at.gmail.com.weekendassignment2.view.songlist.navbar.NavbarFragment;
 import icepick.State;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements INavbarEvent{
 
     FragmentManager mFragmentManager;
-    int mMenuItemId;
-    MenuItem mSelectedItem;
-    BottomNavigationView mNavigationView;
-    BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
     ISongListPresenter<SongListFragment> presenter;
 
     @Override
@@ -29,18 +27,28 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        /*
-        Initialise the bottom navigation
-         */
-        initBottomNavigation();
 
         SongListFragment songListFragment = new SongListFragment();
-        mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, songListFragment)
-                .addToBackStack("")
-                .commit();
 
+        if(savedInstanceState == null){
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction()
+                    .add(R.id.fragmentContainer, songListFragment)
+                    .commit();
+
+            mFragmentManager.beginTransaction()
+                    .add(R.id.fragmentNavbar, new NavbarFragment())
+                    .commit();
+        } else {
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, songListFragment)
+                    .commit();
+
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentNavbar, new NavbarFragment())
+                    .commit();
+        }
 
         presenter = new SongListPresenter<>(new DataManager(),
                 new AppSchedulerProvider(),
@@ -51,46 +59,27 @@ public class MainActivity extends AppCompatActivity{
         if(savedInstanceState == null)
         {
             presenter.onCallGetClassicSongList();
-        }else {
-            mMenuItemId = savedInstanceState.getInt("mMenuItemId");
-            mSelectedItem = mNavigationView.getMenu().findItem(mMenuItemId);
-            mNavigationView.setSelectedItemId(mSelectedItem.getItemId());
-            mOnNavigationItemSelectedListener.onNavigationItemSelected(mSelectedItem);
         }
-    }
-
-    private void initBottomNavigation()
-    {
-        mOnNavigationItemSelectedListener = item -> {
-            mSelectedItem = item;
-            mMenuItemId = item.getItemId();
-            switch (item.getItemId()) {
-                case R.id.navigation_classic:
-                    presenter.onCallGetClassicSongList();
-                    return true;
-                case R.id.navigation_rock:
-                    presenter.onCallGetRockSongList();
-                    return true;
-                case R.id.navigation_pop:
-                    presenter.onCallGetPopSongList();
-                    return true;
-            }
-            return false;
-        };
-        mNavigationView = findViewById(R.id.navigation);
-        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mMenuItemId = mNavigationView.getSelectedItemId();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("mMenuItemId", mMenuItemId);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDetach();
+    }
+
+    @Override
+    public void onItemClick(int itemId) {
+        switch (itemId){
+            case R.id.navigation_classic:
+                presenter.onCallGetClassicSongList();
+                break;
+            case  R.id.navigation_rock:
+                presenter.onCallGetRockSongList();
+                break;
+            case R.id.navigation_pop:
+                presenter.onCallGetPopSongList();
+                break;
+        }
     }
 }
