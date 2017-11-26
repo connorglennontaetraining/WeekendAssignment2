@@ -10,7 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import connorglennontaetraining.at.gmail.com.weekendassignment2.R;
@@ -27,6 +30,7 @@ public class SongListFragment extends Fragment implements ISongListFragment{
 
     RecyclerView mRvSongList;
     int mLayoutId;
+    List<Song> mFailedToFetchDataList;
 
     public SongListFragment() {
         // Required empty public constructor
@@ -58,9 +62,13 @@ public class SongListFragment extends Fragment implements ISongListFragment{
         mRvSongList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void initFailedToLoadDataList(){
+        mFailedToFetchDataList = new ArrayList<>();
+        Song song = new Song();
+        song.setTrackName("Error loading data");
+        song.setArtistName("Unfortunately we couldn't find the data you are looking for.");
+        song.setArtworkUrl100("");
+        mFailedToFetchDataList.add(song);
     }
 
     @Override
@@ -70,7 +78,8 @@ public class SongListFragment extends Fragment implements ISongListFragment{
 
     @Override
     public void onFetchDataError(String message) {
-
+        if(mFailedToFetchDataList == null){initFailedToLoadDataList();}
+        mRvSongList.setAdapter(new SongListAdapter(getActivity(), mFailedToFetchDataList, mLayoutId));
     }
 
     @Override
@@ -95,7 +104,7 @@ public class SongListFragment extends Fragment implements ISongListFragment{
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

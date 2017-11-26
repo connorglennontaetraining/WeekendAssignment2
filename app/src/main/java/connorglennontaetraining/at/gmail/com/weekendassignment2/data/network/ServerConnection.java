@@ -32,7 +32,7 @@ public class ServerConnection {
 
     public static IRequest getServerConnection() {
         // Location of the cache.
-        File httpCacheDirectory = new File(MyApp.application.getCacheDir(),  "responses");
+        File httpCacheDirectory = new File(MyApp.getApplication().getCacheDir(),  "responses");
         // Initialise the cache.
         Cache cache = new Cache(httpCacheDirectory, CACHE_SIZE);
 
@@ -94,7 +94,7 @@ public class ServerConnection {
 
     public static boolean isOnline() {
         ConnectivityManager connectivityManager =
-                (ConnectivityManager) MyApp.application.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) MyApp.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }

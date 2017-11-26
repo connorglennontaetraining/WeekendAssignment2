@@ -46,7 +46,7 @@ public class Media implements IMedia {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            mMediaPlayer.setDataSource(MyApp.context, soundUri);
+            mMediaPlayer.setDataSource(MyApp.getContext(), soundUri);
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mediaPlayer) {

@@ -29,4 +29,9 @@ public class ApiHelper implements IApiHelper {
     public Observable<Results> requestPopResults() {
         return request.requestPopResults();
     }
+
+    @Override
+    public boolean hasConnection() {
+        return ServerConnection.isOnline();
+    }
 }

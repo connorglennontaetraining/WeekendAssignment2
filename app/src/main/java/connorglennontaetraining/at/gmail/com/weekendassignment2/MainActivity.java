@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import connorglennontaetraining.at.gmail.com.weekendassignment2.data.DataManager;
@@ -17,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class MainActivity extends AppCompatActivity{
 
     FragmentManager mFragmentManager;
-    @State int mMenuItemId;
+    int mMenuItemId;
     MenuItem mSelectedItem;
     BottomNavigationView mNavigationView;
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
@@ -44,13 +45,18 @@ public class MainActivity extends AppCompatActivity{
         presenter = new SongListPresenter<>(new DataManager(),
                 new AppSchedulerProvider(),
                 new CompositeDisposable());
+
         presenter.onAttach(songListFragment);
 
         if(savedInstanceState == null)
         {
             presenter.onCallGetClassicSongList();
+        }else {
+            mMenuItemId = savedInstanceState.getInt("mMenuItemId");
+            mSelectedItem = mNavigationView.getMenu().findItem(mMenuItemId);
+            mNavigationView.setSelectedItemId(mSelectedItem.getItemId());
+            mOnNavigationItemSelectedListener.onNavigationItemSelected(mSelectedItem);
         }
-
     }
 
     private void initBottomNavigation()
@@ -73,15 +79,13 @@ public class MainActivity extends AppCompatActivity{
         };
         mNavigationView = findViewById(R.id.navigation);
         mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mMenuItemId = mNavigationView.getSelectedItemId();
     }
 
-
-
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mSelectedItem = mNavigationView.getMenu().getItem(mMenuItemId);
-        mOnNavigationItemSelectedListener.onNavigationItemSelected(mSelectedItem);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mMenuItemId", mMenuItemId);
     }
 
     @Override

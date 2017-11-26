@@ -3,6 +3,8 @@ package connorglennontaetraining.at.gmail.com.weekendassignment2.data.network.mo
 import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 public class Song {
 
     @SerializedName("wrapperType")

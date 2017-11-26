@@ -7,5 +7,6 @@ import io.reactivex.Observable;
  * Created by Connor Glennon on 25/11/2017.
  */
 
-public interface IApiHelper extends IRequest{
+public interface IApiHelper extends IRequest {
+    boolean hasConnection();
 }
