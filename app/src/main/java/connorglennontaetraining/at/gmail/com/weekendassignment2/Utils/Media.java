@@ -41,6 +41,7 @@ public class Media implements IMedia {
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.stop();
             mMediaPlayer.release();
+            mMediaPlayer = null;
         }
 
         mMediaPlayer = new MediaPlayer();

@@ -49,9 +49,9 @@ public class NavbarFragment extends Fragment {
             Log.i("NavbarFragment", "Loaded mMenuItemId: " + savedInstanceState.getInt("mMenuItemId"));
             mMenuItemId = savedInstanceState.getInt("mMenuItemId");
             mNavigationView.setSelectedItemId(mMenuItemId);
-
         }
         mMenuItemId = mNavigationView.getSelectedItemId();
+        mNavigationView.setSelectedItemId(mMenuItemId);
     }
 
 

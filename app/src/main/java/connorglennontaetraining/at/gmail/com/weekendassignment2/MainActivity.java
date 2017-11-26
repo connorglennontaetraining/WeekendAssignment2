@@ -3,6 +3,7 @@ package connorglennontaetraining.at.gmail.com.weekendassignment2;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements INavbarEvent{
 
     FragmentManager mFragmentManager;
     ISongListPresenter<SongListFragment> presenter;
+    int mCurrentMenuId;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements INavbarEvent{
 
     @Override
     public void onItemClick(int itemId) {
+        mCurrentMenuId = itemId;
         switch (itemId){
             case R.id.navigation_classic:
                 presenter.onCallGetClassicSongList();
@@ -81,5 +85,12 @@ public class MainActivity extends AppCompatActivity implements INavbarEvent{
                 presenter.onCallGetPopSongList();
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(() -> onItemClick(mCurrentMenuId));
     }
 }

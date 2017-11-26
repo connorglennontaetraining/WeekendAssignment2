@@ -42,6 +42,8 @@ public class MyApp extends Application{
         Fresco.initialize(this);
         Realm.init(this);
 
+        Realm.deleteRealm(Realm.getDefaultConfiguration());
+
         //TODO: look at moving this key to a secure location.
         if(sharedPreferences.getString("ENCKEY", null) == null)
         {
